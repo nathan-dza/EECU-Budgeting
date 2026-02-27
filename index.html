@@ -1,27 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EECU CALC</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-        <nav>
+    <nav>
+
+        <ul>
+            <li> <img src="images/image 2.png" alt="EECU"> </li>
+            <li> Savings & Checking </li>
+            <li> Loans & Credit Cards </li>
+            <li> Online & Mobile </li>
+            <li> Insure & Invest </li>
+            <li> News & Resources </li>
+            <li> Money 101 </li>
+            <li> <img src="images/Login.png" alt="Login!"></li>
+        </ul>
+    </nav>
+
+    <article class="bar"> <!-- This is for the side bar containing the input values-->
+        <section class="GAI">
+
+            <h3>Gross Annual Income</h3>
+            <select id="occu"> <!-- This stands for Occupation-->
+                <option value="unanswered">Select Occupation</option>
+            </select>
+            <input type="text" id="income"> <!-- This is for the income, just an input for now-->
+            <input type="text" id="tax-income"> <!-- This is for the post tax income, just an input for now-->
             
-            <ul> 
-               <li> <img src="images/image 2.png" alt="EECU"> </li>
-                <li> Savings & Checking </li>
-                <li> Loans & Credit Cards </li>
-                <li> Online & Mobile </li>
-                <li> Insure & Invest </li>
-                <li> News & Resources </li>
-                <li> Money 101 </li>
-                <li> <img src="images/Login.png" alt="Login!"></li>
-            </ul> 
-        </nav>
+        </section>
+        <section class="student-loans">
+
+            <h3>Student Loans</h3>
+            <label for="student-loans">$</label> <!-- This is for the dollar sign before the input for student loans-->
+            <input type="text" id="student-loans"> <!-- This is for the monthly student loans, just an input for now-->
+            
+        </section>
+        <section class="housing">
+
+            <h3>Housing</h3>
+            <label for="housing">$</label> <!-- This is for the dollar sign before the input for the monthly housing costs-->
+            <input type="text" id="housing"> <!-- This is for the monthly housing costs, just an input for now-->
+            
+        </section>
+        <section class="essentials">
+
+            <h3>Essentials</h3>
+            <label for="essentials">$</label> <!-- This is for the dollar sign before the input for the monthly essentials costs-->
+            <input type="text" id="essentials"> <!-- This is for the monthly essentials costs, just an input for now-->
+            
+        </section>
+
+    </article>
 
 
     <script src="script.js"></script>
 </body>
+
 </html>
