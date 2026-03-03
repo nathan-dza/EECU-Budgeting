@@ -6,6 +6,12 @@
     --font: 'Roboto Condensed', sans-serif; /* Main font */
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font);
+}
+
 nav ul {
     display: flex;
     list-style-type: none;
@@ -13,7 +19,7 @@ nav ul {
     background-color: #0059A6;
     color: white;
     align-items: center;
-    padding: 10px;
+    padding: 30px;
     justify-content: space-between;
     font-size: 23px;
     font-weight: 200;
@@ -24,11 +30,14 @@ nav li {
 }
 
 .bar {
+    padding: 20px;
+    margin: 30px;
     background-color: var(--pri);
     display:flex;
     flex-direction: column;
     width: 320px;
     font-family: 'Roboto Condensed', sans-serif;
+    row-gap: 20px;
 }
 
 .GAI {
@@ -40,6 +49,14 @@ nav li {
 
 .bar h3 {
     color: var(--sec);
+    font-size: 22px;
+    border-bottom: var(--sec) solid 2px;
+    margin-bottom: 10px;
+}
+
+.bar h4 {
+    color: var(--sec);
+    
 }
 
 #occu{
@@ -51,4 +68,10 @@ label {
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 19px;
     color: var(--sec);
+}
+
+.bar img {
+    align-self: flex-end;
+    width: 42px;
+    height: 42px;
 }
