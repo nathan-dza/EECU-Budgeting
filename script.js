@@ -1,3 +1,4 @@
+fetch('https://eecu-data-server.vercel.app/data ');
 // --- DOM Elements ---
 
 // --- Chart Loading ---
@@ -93,3 +94,6 @@ taxInfo.addEventListener('mouseenter', (event) => {
 taxInfo.addEventListener('mouseleave', (event) => {
   taxPopup.close();
 });
+
+
+
