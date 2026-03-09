@@ -1,6 +1,4 @@
-// --- DOM Elements ---
-
-// --- Chart Loading ---
+// --- Chart Loading... ---
 const canvas = document.getElementById('pieChart');
 const occuSelect = document.getElementById('occu');
 const incomeInput = document.getElementById('income');
@@ -12,6 +10,33 @@ const lifestyleInput = document.getElementById('lifestyle')
 const futureInput = document.getElementById('future')
 const taxPopup = document.getElementById('taxPopup');
 const taxInfo = document.getElementById('taxInfoButton');
+const salary = document.getElementById('salary');
+
+// Career Select
+async function careerSelect() {
+  const selectElement = document.getElementById('occu');
+  const occupationSalaryMap = new Map();
+  try {
+    const response = await fetch('https://eecu-data-server.vercel.app/data');
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const users = await response.json();
+
+    users.forEach(user => {
+      occupationSalaryMap.set(user["Occupation"], user["Salary"]);
+      const option = new Option(user["Occupation"], user["Occupation"]);
+      selectElement.add(option);
+    });
+
+    selectElement.addEventListener('change', () => {
+      salary.textContent = occupationSalaryMap.get(selectElement.value) || '';
+    });
+  } catch (error) {
+    console.error('Error populating user select:', error);
+  }
+}
+careerSelect();
+
 
 let currentChart = null;
 
@@ -24,13 +49,13 @@ function toNumber(el, fallback = 0) {
 
 // Build chart config from current input values
 function buildChartConfig() {
-  const income = toNumber(incomeInput, 5000);
+  const income = toNumber(incomeInput, 0);
   const taxIncome = toNumber(taxIncomeInput, income * 0.8);
-  const loans = toNumber(studentLoansInput, 200);
-  const housing = toNumber(housingInput, 1000);
-  const essentials = toNumber(essentialsInput, 300);
-  const lifestyle = toNumber(lifestyleInput, 300)
-  const future = toNumber(futureInput, 500)
+  const loans = toNumber(studentLoansInput, 0);
+  const housing = toNumber(housingInput, 0);
+  const essentials = toNumber(essentialsInput, 0);
+  const lifestyle = toNumber(lifestyleInput, 0)
+  const future = toNumber(futureInput, 0)
 
 
   const labels = ['Housing', 'Essentials', 'Loans', 'Lifestyle', 'Future Proofing'];
@@ -50,7 +75,7 @@ function buildChartConfig() {
     },
     options: {
       plugins: {
-        title: { display: true, text: `Budget snapshot (${occuSelect ? occuSelect.value : 'N/A'})` }
+        title: { display: true, text: `Spending Overview (${occuSelect ? occuSelect.value : 'N/A'})` }
       }
     }
   };
@@ -84,7 +109,7 @@ function refreshChart() {
 
 // Start a constant update loop every second
 initChart();
-setInterval(refreshChart, 1000);
+setInterval(refreshChart, 500);
 
 taxInfo.addEventListener('mouseenter', (event) => {
   taxPopup.showModal();

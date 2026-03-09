@@ -26,60 +26,66 @@
     <main>
         <article class="bar"> <!-- This is for the side bar containing the input values-->
             <section class="GAI">
-    
+
                 <h3>Gross Annual Income</h3>
                 <select id="occu"> <!-- This stands for Occupation-->
                     <option value="unanswered">Select Occupation</option>
                 </select>
                 <label for="housing">Income</label>
-                <input type="text" id="income"> <!-- This is for the income, just an input for now-->
+                <label id="salaryContainer">$<span id="salary"></span></label>
+                
                 <label for="tax-income">Post-Tax Income <img src="images/Info.png" id="taxInfoButton"></label>
                 <input type="text" id="tax-income"> <!-- This is for the post tax income, just an input for now-->
-                
+
             </section>
             <section class="student-loans">
-    
+
                 <h3>Student Loans</h3>
                 <h4>Monthly Payments</h4>
-                <label for="student-loans">$</label> <!-- This is for the dollar sign before the input for student loans-->
-                <input type="text" id="student-loans"> <!-- This is for the monthly student loans, just an input for now-->
-                
+                <label for="student-loans">$</label>
+                <!-- This is for the dollar sign before the input for student loans-->
+                <input type="text" id="student-loans">
+                <!-- This is for the monthly student loans, just an input for now-->
+
             </section>
             <section class="housing">
-    
+
                 <h3>Housing</h3>
                 <h4>Mortgage/Rent</h4>
-                <label for="housing">$</label> <!-- This is for the dollar sign before the input for the monthly housing costs-->
+                <label for="housing">$</label>
+                <!-- This is for the dollar sign before the input for the monthly housing costs-->
                 <input type="text" id="housing"> <!-- This is for the monthly housing costs, just an input for now-->
-                
+
             </section>
             <section class="essentials">
-    
+
                 <h3>Essentials</h3>
                 <h4>Water Bill</h4>
-                <label for="essentials">$</label> <!-- This is for the dollar sign before the input for the monthly essentials costs-->
-                <input type="text" id="essentials"> <!-- This is for the monthly essentials costs, just an input for now-->
-                
+                <label for="essentials">$</label>
+                <!-- This is for the dollar sign before the input for the monthly essentials costs-->
+                <input type="text" id="essentials">
+                <!-- This is for the monthly essentials costs, just an input for now-->
+
             </section>
             <section class="lifestyle">
-    
+
                 <h3>Lifestyle</h3>
                 <h4>Restaurants/Fast Food</h4>
                 <label for="lifestyle">$</label>
                 <input type="text" id="lifestyle">
-                
+
             </section>
             <section class="futureProofing">
-    
+
                 <h3>Future Proofing</h3>
                 <h4>Monthly Savings</h4>
                 <label for="future">$</label>
                 <input type="text" id="future">
-                
+
             </section>
             <img src="images/Plus.png">
         </article>
-    
+
         <canvas id="pieChart">
             <!--insert chart here-->
         </canvas>
@@ -91,7 +97,7 @@
                 <li>Social Security: 6.2%</li>
                 <li>California Tax: 4% </li>
                 <li>Medicare: 1.45%</li>
-            </ul>    
+            </ul>
         </dialog>
     </main>
     <script src="script.js"></script>
