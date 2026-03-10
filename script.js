@@ -1,7 +1,6 @@
 // --- Chart Loading... ---
 const canvas = document.getElementById('pieChart');
 const occuSelect = document.getElementById('occu');
-const incomeInput = document.getElementById('income');
 const taxIncomeInput = document.getElementById('tax-income');
 const studentLoansInput = document.getElementById('student-loans');
 const housingInput = document.getElementById('housing');
@@ -11,11 +10,41 @@ const futureInput = document.getElementById('future')
 const taxPopup = document.getElementById('taxPopup');
 const taxInfo = document.getElementById('taxInfoButton');
 const salary = document.getElementById('salary');
+const taxLabel = document.getElementById("taxContainer")
+
+// Calculate taxes
+
+// Add in promises or some sort of listener to grab the salary.textContent
+
+const taxIncome = Math.floor(calculateTax(income), 0);
+function calculateTax(income_in) {
+  const brackets = [
+    { limit: 12400, rate: 0.10 },
+    { limit: 50400, rate: 0.12 },
+    { limit: Infinity, rate: 0.22 }
+  ];
+
+  let tax = 0;
+  let previousLimit = 0;
+  income_in = income;
+
+  for (const bracket of brackets) {
+    if (income_in > bracket.limit) {
+      tax += (bracket.limit - previousLimit) * bracket.rate;
+      previousLimit = bracket.limit;
+    } else {
+      tax += (income_in - previousLimit) * bracket.rate;
+      break;
+    }
+  }
+  return tax;
+}
 
 // Career Select
 async function careerSelect() {
   const selectElement = document.getElementById('occu');
   const occupationSalaryMap = new Map();
+  
   try {
     const response = await fetch('https://eecu-data-server.vercel.app/data');
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -49,8 +78,8 @@ function toNumber(el, fallback = 0) {
 
 // Build chart config from current input values
 function buildChartConfig() {
-  const income = toNumber(incomeInput, 0);
-  const taxIncome = toNumber(taxIncomeInput, income * 0.8);
+  console.log(income)
+  const taxes = (taxIncome/12);
   const loans = toNumber(studentLoansInput, 0);
   const housing = toNumber(housingInput, 0);
   const essentials = toNumber(essentialsInput, 0);
@@ -58,8 +87,8 @@ function buildChartConfig() {
   const future = toNumber(futureInput, 0)
 
 
-  const labels = ['Housing', 'Essentials', 'Loans', 'Lifestyle', 'Future Proofing'];
-  const data = [housing, essentials, loans, lifestyle, future];
+  const labels = ['Housing', 'Essentials', 'Loans', 'Lifestyle', 'Future Proofing', 'Taxes'];
+  const data = [housing, essentials, loans, lifestyle, future, taxes];
 
   return {
     type: 'doughnut',
