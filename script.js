@@ -10,6 +10,7 @@ const futureInput = document.getElementById('future')
 const taxPopup = document.getElementById('taxPopup');
 const taxInfo = document.getElementById('taxInfoButton');
 const salary = document.getElementById('salary');
+const postTaxSalary = document.getElementById('postTaxSalary');
 const income = parseFloat(salary.textContent) || 0;
 const taxLabel = document.getElementById("tax")
 
@@ -38,16 +39,17 @@ function calculateTax(income_in) {
       break;
     }
   }
-  console.log(tax);
   return tax;
 }
 
 //Updates taxes
 function updateTax() {
   const income = parseFloat(salary.textContent) || 0;
-  const taxIncome = Math.floor(calculateTax(income), 0);
-  console.log(`Updated Tax: ${taxIncome}`);
-  taxLabel.textContent = taxIncome.toLocaleString();
+  const taxValue = Math.floor(calculateTax(income));
+  console.log(`Updated Tax: ${taxValue}`);
+  taxLabel.textContent = taxValue.toLocaleString();
+  const netIncome = income - taxValue;
+  postTaxSalary.textContent = netIncome.toLocaleString();
 }
 
 // Listen for changes in salary to update tax info
@@ -99,7 +101,7 @@ function toNumber(el, fallback = 0) {
 
 // Build chart config from current input values
 function buildChartConfig() {
-  const taxes = (taxIncome / 12);
+  const taxes = ((calculateTax(parseFloat(salary.textContent)))/12);
   const loans = toNumber(studentLoansInput, 0);
   const housing = toNumber(housingInput, 0);
   const essentials = toNumber(essentialsInput, 0);
@@ -119,7 +121,7 @@ function buildChartConfig() {
         label: 'Monthly (USD)',
         data,
         backgroundColor: [
-          '#8979FF', '#FF928A', '#3CC3DF', '#FFAE4C', '#537FF1'
+          '#8979FF', '#FF928A', '#3CC3DF', '#FFAE4C', '#537FF1', '#f153eeff'
         ]
       }]
     },
@@ -161,10 +163,10 @@ function refreshChart() {
 initChart();
 setInterval(refreshChart, 500);
 
-taxInfo.addEventListener('mouseenter', (event) => {
+taxInfo.addEventListener('click', (event) => {
   taxPopup.showModal();
 });
 
-taxInfo.addEventListener('mouseleave', (event) => {
-  taxPopup.close();
-});
+//taxInfo.addEventListener('click', (event) => {
+  //taxPopup.close();
+//});

@@ -33,9 +33,14 @@
                 </select>
                 <label for="housing">Income</label>
                 <label id="salaryContainer">$<span id="salary">0</span></label>
-                
-                <label for="tax-income">Post-Tax Income <img src="images/Info.png" id="taxInfoButton"></label>
-                <label type="text" id="taxContainer">Estimated Yearly Tax:<br>$<span id="tax"></span></label> <!-- This is for the post tax income, just an input for now-->
+
+                <label for="tax-income">Net Yearly Salary <img src="images/Info.png" id="taxInfoButton">
+                    <span>$</span>
+                    <span id="postTaxSalary"></span>
+                </label>
+
+                <label type="text" id="taxContainer">Yearly Tax: <br>$<span id="tax"></span>
+                    <!-- This is for the post tax income, just an input for now--></label>
 
             </section>
             <section class="student-loans">
