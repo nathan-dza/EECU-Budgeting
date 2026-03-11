@@ -10,13 +10,15 @@ const futureInput = document.getElementById('future')
 const taxPopup = document.getElementById('taxPopup');
 const taxInfo = document.getElementById('taxInfoButton');
 const salary = document.getElementById('salary');
-const taxLabel = document.getElementById("taxContainer")
+const income = parseFloat(salary.textContent) || 0;
+const taxLabel = document.getElementById("tax")
+
 
 // Calculate taxes
 
 // Add in promises or some sort of listener to grab the salary.textContent
 
-const taxIncome = Math.floor(calculateTax(income), 0);
+const taxIncome = Math.floor(calculateTax(income.value), 0);
 function calculateTax(income_in) {
   const brackets = [
     { limit: 12400, rate: 0.10 },
@@ -26,7 +28,6 @@ function calculateTax(income_in) {
 
   let tax = 0;
   let previousLimit = 0;
-  income_in = income;
 
   for (const bracket of brackets) {
     if (income_in > bracket.limit) {
@@ -37,19 +38,39 @@ function calculateTax(income_in) {
       break;
     }
   }
+  console.log(tax);
   return tax;
 }
+
+//Updates taxes
+function updateTax() {
+  const income = parseFloat(salary.textContent) || 0;
+  const taxIncome = Math.floor(calculateTax(income), 0);
+  console.log(`Updated Tax: ${taxIncome}`);
+  taxLabel.textContent = taxIncome.toLocaleString();
+}
+
+// Listen for changes in salary to update tax info
+const salaryObserver = new MutationObserver(() => {
+    updateTax();
+});
+
+//Start observing the salary element for changes
+salaryObserver.observe(salary, { childList: true, subtree: true });
+
+updateTax();
 
 // Career Select
 async function careerSelect() {
   const selectElement = document.getElementById('occu');
   const occupationSalaryMap = new Map();
-  
+
   try {
     const response = await fetch('https://eecu-data-server.vercel.app/data');
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
     const users = await response.json();
+    console.log(users);
 
     users.forEach(user => {
       occupationSalaryMap.set(user["Occupation"], user["Salary"]);
@@ -78,17 +99,17 @@ function toNumber(el, fallback = 0) {
 
 // Build chart config from current input values
 function buildChartConfig() {
-  console.log(income)
-  const taxes = (taxIncome/12);
+  const taxes = (taxIncome / 12);
   const loans = toNumber(studentLoansInput, 0);
   const housing = toNumber(housingInput, 0);
   const essentials = toNumber(essentialsInput, 0);
-  const lifestyle = toNumber(lifestyleInput, 0)
-  const future = toNumber(futureInput, 0)
+  const lifestyle = toNumber(lifestyleInput, 0);
+  const future = toNumber(futureInput, 0);
+  
+  console.log(taxes);
 
-
-  const labels = ['Housing', 'Essentials', 'Loans', 'Lifestyle', 'Future Proofing', 'Taxes'];
-  const data = [housing, essentials, loans, lifestyle, future, taxes];
+  const labels = ['Taxes', 'Loans', 'Housing', 'Essentials', 'Lifestyle', 'Future Proofing'];
+  const data = [taxes, loans, housing, essentials, lifestyle, future];
 
   return {
     type: 'doughnut',
