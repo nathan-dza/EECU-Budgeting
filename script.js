@@ -13,13 +13,14 @@ const salary = document.getElementById('salary');
 const postTaxSalary = document.getElementById('postTaxSalary');
 const income = parseFloat(salary.textContent) || 0;
 const taxLabel = document.getElementById("tax")
+const expensesTotal = document.getElementById('totalExpenses');
 
 
 // Calculate taxes
 
 // Add in promises or some sort of listener to grab the salary.textContent
 
-const taxIncome = Math.floor(calculateTax(income.value), 0);
+const taxIncome = (calculateTax(income.valueOf), 0).toFixed(2);
 function calculateTax(income_in) {
   const brackets = [
     { limit: 12400, rate: 0.10 },
@@ -45,11 +46,11 @@ function calculateTax(income_in) {
 //Updates taxes
 function updateTax() {
   const income = parseFloat(salary.textContent) || 0;
-  const taxValue = Math.floor(calculateTax(income));
+  const taxValue = calculateTax(income);
   console.log(`Updated Tax: ${taxValue}`);
-  taxLabel.textContent = taxValue.toLocaleString();
+  taxLabel.textContent = taxValue.toFixed(2);
   const netIncome = income - taxValue;
-  postTaxSalary.textContent = netIncome.toLocaleString();
+  postTaxSalary.textContent = netIncome.toFixed(2);
 }
 
 // Listen for changes in salary to update tax info
@@ -81,7 +82,8 @@ async function careerSelect() {
     });
 
     selectElement.addEventListener('change', () => {
-      salary.textContent = occupationSalaryMap.get(selectElement.value) || '';
+      const rawSalary = occupationSalaryMap.get(selectElement.value);
+      salary.textContent = rawSalary ? parseFloat(rawSalary).toFixed(2) : '0.00';
     });
   } catch (error) {
     console.error('Error populating user select:', error);
@@ -101,12 +103,19 @@ function toNumber(el, fallback = 0) {
 
 // Build chart config from current input values
 function buildChartConfig() {
-  const taxes = ((calculateTax(parseFloat(salary.textContent)))/12);
-  const loans = toNumber(studentLoansInput, 0);
-  const housing = toNumber(housingInput, 0);
-  const essentials = toNumber(essentialsInput, 0);
-  const lifestyle = toNumber(lifestyleInput, 0);
-  const future = toNumber(futureInput, 0);
+  const taxes = parseFloat((calculateTax(parseFloat(salary.textContent) || 0) / 12).toFixed(2));
+  const loans = parseFloat(toNumber(studentLoansInput, 0).toFixed(2));
+  const housing = parseFloat(toNumber(housingInput, 0).toFixed(2));
+  const essentials = parseFloat(toNumber(essentialsInput, 0).toFixed(2));
+  const lifestyle = parseFloat(toNumber(lifestyleInput, 0).toFixed(2));
+  const future = parseFloat(toNumber(futureInput, 0).toFixed(2));
+  
+  const totalExpenses = taxes + loans + housing + essentials + lifestyle + future;
+  
+  // Update the HTML div
+  if (expensesTotal) {
+    expensesTotal.textContent = `Total Monthly Expenses: $${totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  }
   
   console.log(taxes);
 
@@ -118,7 +127,7 @@ function buildChartConfig() {
     data: {
       labels,
       datasets: [{
-        label: 'Monthly (USD)',
+        label: 'Monthly ($USD)',
         data,
         backgroundColor: [
           '#8979FF', '#FF928A', '#3CC3DF', '#FFAE4C', '#537FF1', '#f153eeff'
