@@ -22,6 +22,7 @@ const expensesTotal = document.getElementById('totalExpenses');
 
 const taxIncome = (calculateTax(income.valueOf), 0).toFixed(2);
 function calculateTax(income_in) {
+  const fixedRate = 0.1165; //this is the sum of the non bracket part of the tax so i can just add it later
   const brackets = [
     { limit: 12400, rate: 0.10 },
     { limit: 50400, rate: 0.12 },
@@ -40,6 +41,7 @@ function calculateTax(income_in) {
       break;
     }
   }
+  tax += income_in * fixedRate;
   return tax;
 }
 
