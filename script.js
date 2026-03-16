@@ -168,7 +168,7 @@ function refreshChart() {
   currentChart.update();
 }
 
-// Start a constant update loop every second
+// Start a constant update loop every 500ms
 initChart();
 setInterval(refreshChart, 500);
 

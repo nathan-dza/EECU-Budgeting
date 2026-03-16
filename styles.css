@@ -27,7 +27,7 @@ nav ul {
     background-color: #0059A6;
     color: white;
     align-items: center;
-    padding: 30px;
+    padding: 2px;
     justify-content: space-between;
     font-size: 23px;
     font-weight: 200;
@@ -138,6 +138,18 @@ label span {
 
 #totalExpenses{
     color: black;
+    z-index: 1;
     position: absolute;
-    transform: translate(-50%, -50%);
+    top: 52%;
 }
+.piePlusExpenses{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#pieChart{
+    width: 120vh;
+}
+
