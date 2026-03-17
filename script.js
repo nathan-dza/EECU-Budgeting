@@ -14,8 +14,10 @@ const postTaxSalary = document.getElementById('postTaxSalary');
 const income = parseFloat(salary.textContent) || 0;
 const taxLabel = document.getElementById("tax")
 const expensesTotal = document.getElementById('totalExpenses');
+const monthlyExpenses = document.getElementById('incomeMonthly');
+const remain = document.getElementById('remain')
 
-
+let remainingMoneyGlobal = 0
 // Calculate taxes
 
 // Add in promises or some sort of listener to grab the salary.textContent
@@ -53,6 +55,7 @@ function updateTax() {
   taxLabel.textContent = taxValue.toFixed(2);
   const netIncome = income - taxValue;
   postTaxSalary.textContent = netIncome.toFixed(2);
+  summary();
 }
 
 // Listen for changes in salary to update tax info
@@ -113,11 +116,25 @@ function buildChartConfig() {
   const future = parseFloat(toNumber(futureInput, 0).toFixed(2));
   
   const totalExpenses = taxes + loans + housing + essentials + lifestyle + future;
+  remainingMoneyGlobal = totalExpenses;
   
-  // Update the HTML div
+  // update the HTML div
   if (expensesTotal) {
     expensesTotal.textContent = `Total Monthly Expenses: $${totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   }
+
+  // 10% reminder
+  const postTaxMonthly = (Number(postTaxSalary.textContent)/12) || 0;
+  const tenPercent = postTaxMonthly * 0.10;
+  const tenPercentReminder = document.getElementById('tenPercent');
+  
+  if (postTaxMonthly !== 0 && future < tenPercent) {
+    tenPercentReminder.style.display = 'block';
+  } else {
+    tenPercentReminder.style.display = 'none';
+  }
+
+  summary();
   
   console.log(taxes);
 
@@ -132,11 +149,13 @@ function buildChartConfig() {
         label: 'Monthly ($USD)',
         data,
         backgroundColor: [
-          '#8979FF', '#FF928A', '#3CC3DF', '#FFAE4C', '#537FF1', '#f153eeff'
+          '#0A59A4', '#aa3f37', '#027d4a', '#FFAE4C', '#862baa', '#14a7a9'
         ]
       }]
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         title: { display: true, text: `Spending Overview (${occuSelect ? occuSelect.value : 'N/A'})` }
       }
@@ -146,6 +165,7 @@ function buildChartConfig() {
 
 // Initialize Chart.js chart if available
 function initChart() {
+  summary();
   if (typeof Chart === 'undefined') {
     console.warn('Chart.js not found - include Chart.js to render charts.');
     return null;
@@ -174,10 +194,19 @@ function refreshChart() {
 initChart();
 setInterval(refreshChart, 500);
 
-taxInfo.addEventListener('click', (event) => {
-  taxPopup.showModal();
-});
-
-//taxInfo.addEventListener('click', (event) => {
-  //taxPopup.close();
-//});
+// summary part
+function summary(){
+  let netMonthlyIncome = (parseFloat(postTaxSalary.textContent) || 0)/12;
+  let withCommas = netMonthlyIncome.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  monthlyExpenses.textContent = `$${withCommas}`;
+  let remaining = netMonthlyIncome - remainingMoneyGlobal;
+  let remainingWithCommas = remaining.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  remain.textContent = `$${remainingWithCommas}`
+  if (remaining < 0){
+    remain.className = 'negative';
+  } else if (remaining < 100){
+    remain.className = 'barelyPositive';
+  } else{
+    remain.className = 'positive'
+  }
+}

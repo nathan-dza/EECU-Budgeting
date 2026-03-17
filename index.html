@@ -27,20 +27,19 @@
         <article class="bar"> <!-- This is for the side bar containing the input values-->
             <section class="GAI">
 
-                <h3>Gross Annual Income</h3>
+                <h3>Income</h3>
                 <select id="occu"> <!-- This stands for Occupation-->
                     <option value="unanswered">Select Occupation</option>
                 </select>
-                <label for="housing">Income</label>
-                <label id="salaryContainer">$<span id="salary">0</span></label>
+                <label for="housing">Pre Tax Income</label>
+                <label id="salaryContainer">$<span id="salary">0.00</span></label>
 
-                <label for="tax-income">Net Yearly Salary <img src="images/Info.png" id="taxInfoButton">
-                    <span>$</span>
-                    <span id="postTaxSalary"></span>
-                </label>
+                <label for="tax-income">Post Tax Income </label>
+                <label id="tax-income">$<span id="postTaxSalary"></span></label>
 
-                <label type="text" id="taxContainer">Yearly Tax: <br>$<span id="tax"></span>
-                    <!-- This is for the post tax income, just an input for now--></label>
+                <label type="text" id="taxContainer">Yearly Tax</label>
+                <label for="">$<span id="tax"></span></label>
+                <!-- This is for the post tax income, just an input for now-->
 
             </section>
             <section class="student-loans">
@@ -86,47 +85,40 @@
                 <h4>Monthly Savings</h4>
                 <label for="future">$</label>
                 <input type="text" id="future">
+                <p id="tenPercent">
+                    Remember that it's best to save at least 10% of your monthly income!
+                </p>
 
             </section>
-            <img src="images/Plus.png">
+           
         </article>
 
-        <section class="piePlusExpenses">
-            <canvas id="pieChart">
-                <!--insert chart here-->
-            </canvas>
-            <div id="totalExpenses">
+        <article class="pieNSummary">
+            <section class="piePlusExpenses">
+                <canvas id="pieChart">
+                    <!--insert chart here-->
+                </canvas>
+                <div id="totalExpenses">
+
+                </div>
+            </section>
+
+
+            <section class="summary">
                 
-            </div>
-        </section>
+                <div id="monthlyIncome">
+                    <h3>Monthly Income</h3>
+                    <p id="incomeMonthly"></p>
+                </div>
 
+                <div id="remaining">
+                    <h3>Remaining money</h3>
+                    <p id="remain"></p>
 
-        <section class="summary">
-            <span id="net">
-                <!--js will -->
-            </span>
+                </div>
+            </section>
+        </article>
 
-           <div id="monthlyIncome">
-            <h3>Monthly Income</h3>
-
-           </div>
-
-           <div id="remaining">
-            <h3>Remaining money</h3>
-            
-            
-           </div>
-        </section>
-
-        <dialog id="taxPopup">
-            <p>Your gross annual income have these taxes imposed on it:</p>
-            <ul>
-                <li>Income Tax: 22%</li>
-                <li>Social Security: 6.2%</li>
-                <li>California Tax: 4% </li>
-                <li>Medicare: 1.45%</li>
-            </ul>
-        </dialog>
     </main>
     <script src="script.js"></script>
 </body>
